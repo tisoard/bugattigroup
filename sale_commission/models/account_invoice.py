@@ -111,7 +111,7 @@ class AccountInvoiceLineAgent(models.Model):
     )
     invoice_date = fields.Date(
         string="Invoice date",
-        related="invoice.date_invoice",
+        related="invoice.invoice_date",
         store=True,
         readonly=True,
     )

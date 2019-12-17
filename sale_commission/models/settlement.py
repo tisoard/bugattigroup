@@ -77,7 +77,7 @@ class Settlement(models.Model):
             'partner_id': settlement.agent.id,
             'type': ('in_invoice' if journal.type == 'purchase' else
                      'in_refund'),
-            'date_invoice': date,
+            'invoice_date': date,
             'journal_id': journal.id,
             'company_id': settlement.company_id.id,
             'state': 'draft',
