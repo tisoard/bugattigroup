@@ -16,7 +16,7 @@ class SaleCommissionAnalysisReport(models.Model):
 
     invoice_state = fields.Selection(selection='_get_selection_invoice_state',
                                      string='Invoice Status', readonly=True)
-    date_invoice = fields.Date('Date Invoice', readonly=True)
+    invoice_date = fields.Date('Date Invoice', readonly=True)
     company_id = fields.Many2one('res.company', 'Company', readonly=True)
     partner_id = fields.Many2one('res.partner', 'Partner', readonly=True)
     agent_id = fields.Many2one('res.partner', 'Agent', readonly=True)
@@ -46,7 +46,7 @@ class SaleCommissionAnalysisReport(models.Model):
             SELECT MIN(aila.id) AS id,
             ai.partner_id AS partner_id,
             ai.state AS invoice_state,
-            ai.date_invoice AS date_invoice,
+            ai.invoice_date AS invoice_date,
             ail.company_id AS company_id,
             rp.id AS agent_id,
             pt.categ_id AS categ_id,
@@ -79,7 +79,7 @@ class SaleCommissionAnalysisReport(models.Model):
         group_by_str = """
             GROUP BY ai.partner_id,
             ai.state,
-            ai.date_invoice,
+            ai.invoice_date,
             ail.company_id,
             rp.id,
             pt.categ_id,

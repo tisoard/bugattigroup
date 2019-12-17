@@ -364,7 +364,7 @@ msgid "Date"
 msgstr "Datum"
 
 #. module: sale_commission
-#: model:ir.model.fields,field_description:sale_commission.field_sale_commission_analysis_report__date_invoice
+#: model:ir.model.fields,field_description:sale_commission.field_sale_commission_analysis_report__invoice_date
 #, fuzzy
 msgid "Date Invoice"
 msgstr "Angelegte Rechnungen"
