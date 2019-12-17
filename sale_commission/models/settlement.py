@@ -45,14 +45,14 @@ class Settlement(models.Model):
         for record in self:
             record.total = sum(x.settled_amount for x in record.lines)
 
-    @api.multi
+    #@api.multi
     def action_cancel(self):
         if any(x.state != 'settled' for x in self):
             raise exceptions.Warning(
                 _('Cannot cancel an invoiced settlement.'))
         self.write({'state': 'cancel'})
 
-    @api.multi
+    #@api.multi
     def unlink(self):
         """Allow to delete only cancelled settlements"""
         if any(x.state == 'invoiced' for x in self):
@@ -60,7 +60,7 @@ class Settlement(models.Model):
                 _("You can't delete invoiced settlements."))
         return super(Settlement, self).unlink()
 
-    @api.multi
+    #@api.multi
     def action_invoice(self):
         return {
             'type': 'ir.actions.act_window',
@@ -126,7 +126,7 @@ class Settlement(models.Model):
         invoice_vals = self._prepare_invoice_header(self, journal, date=date)
         return self.env['account.invoice'].create(invoice_vals)
 
-    @api.multi
+    #@api.multi
     def make_invoices(self, journal, product, date=False):
         invoice_line_obj = self.env['account.invoice.line']
         for settlement in self:

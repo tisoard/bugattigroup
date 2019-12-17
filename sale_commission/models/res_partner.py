@@ -58,7 +58,7 @@ class ResPartner(models.Model):
             ]
         return super(ResPartner, self).create(vals)
 
-    @api.multi
+    #@api.multi
     def write(self, vals):
         """Propagate agents change in the parent partner to the child
         contacts.
