@@ -247,7 +247,7 @@ class TestSaleCommission(SavepointCase):
         self.assertTrue(sale_order.invoice_ids, "Order is not invoiced.")
         self.assertEqual(sale_order.invoice_ids[:1].state, "paid")
         for invoice in sale_order.invoice_ids:
-            refund_wiz = self.env['account.invoice.refund'].with_context(
+            refund_wiz = self.env['account.move.refund'].with_context(
                 active_ids=invoice.ids, active_id=invoice.id
             ).create({
                 'description': 'Refund test',
@@ -415,10 +415,10 @@ class TestSaleCommission(SavepointCase):
         partner.agents = self.agent_annual
         self.agent_semi.commission = self.commission_net_paid
         self.partner.agents = self.agent_semi
-        invoice = self.env['account.invoice'].create({
+        invoice = self.env['account.move'].create({
             'partner_id': self.partner.id
         })
-        line = self.env['account.invoice.line'].new({
+        line = self.env['account.move.line'].new({
             'invoice_id': invoice.id,
             'product_id': self.product.id,
             'product_uom_qty': 1.0,
@@ -426,7 +426,7 @@ class TestSaleCommission(SavepointCase):
 
         })
         line._onchange_product_id()
-        line = self.env['account.invoice.line'].with_context({
+        line = self.env['account.move.line'].with_context({
             'partner_id': self.partner.id
         }).create(line._cache)
         self.assertGreater(len(line.agents), 0)

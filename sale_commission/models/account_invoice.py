@@ -5,7 +5,7 @@ from odoo import _, api, exceptions, fields, models
 
 
 class AccountInvoice(models.Model):
-    _inherit = "account.move"
+    _inherit = "account.account.move"
 
     @api.depends('invoice_line_ids.agents.amount')
     def _compute_commission_total(self):
@@ -35,16 +35,16 @@ class AccountInvoice(models.Model):
         return super(AccountInvoice, self).invoice_validate()
 
     def _refund_cleanup_lines(self, lines):
-        """ugly function to map all fields of account.move.line
+        """ugly function to map all fields of account.account.move.line
         when creates refund invoice"""
         res = super(AccountInvoice, self)._refund_cleanup_lines(lines)
-        if lines and lines[0]._name != 'account.move.line':
+        if lines and lines[0]._name != 'account.account.move.line':
             return res
         for i, line in enumerate(lines):
             vals = res[i][2]
             agents = super(AccountInvoice, self)._refund_cleanup_lines(
                 line['agents'])
-            # Remove old reference to source invoice
+            # Reaccount.move old reference to source invoice
             for agent in agents:
                 agent_vals = agent[2]
                 del agent_vals['invoice']
@@ -58,13 +58,13 @@ class AccountInvoice(models.Model):
 
 class AccountInvoiceLine(models.Model):
     _inherit = [
-        "account.move.line",
+        "account.account.move.line",
         "sale.commission.mixin",
     ]
-    _name = "account.move.line"
+    _name = "account.account.move.line"
 
     agents = fields.One2many(
-        comodel_name="account.move.line.agent",
+        comodel_name="account.account.move.line.agent",
     )
     any_settled = fields.Boolean(
         compute="_compute_any_settled",
@@ -80,10 +80,10 @@ class AccountInvoiceLine(models.Model):
         """Add agents for records created from automations instead of UI."""
         # We use this form as this is the way it's returned when no real vals
         agents_vals = vals.get('agents', [(6, 0, [])])
-        move_id = vals.get('move_id', False)
+        account.move_id = vals.get('account.move_id', False)
         if (agents_vals and agents_vals[0][0] == 6 and not
-                agents_vals[0][2] and move_id):
-            inv = self.env['account.move'].browse(move_id)
+                agents_vals[0][2] and account.move_id):
+            inv = self.env['account.account.move'].browse(account.move_id)
             vals['agents'] = self._prepare_agents_vals_partner(inv.partner_id)
         return super().create(vals)
 
@@ -91,22 +91,22 @@ class AccountInvoiceLine(models.Model):
         self.ensure_one()
         res = super()._prepare_agents_vals()
         return res + self._prepare_agents_vals_partner(
-            self.move_id.partner_id,
+            self.account.move_id.partner_id,
         )
 
 
 class AccountInvoiceLineAgent(models.Model):
     _inherit = "sale.commission.line.mixin"
-    _name = "account.move.line.agent"
+    _name = "account.account.move.line.agent"
 
     object_id = fields.Many2one(
-        comodel_name="account.move.line",
+        comodel_name="account.account.move.line",
         oldname='invoice_line',
     )
     invoice = fields.Many2one(
         string="Invoice",
-        comodel_name="account.move",
-        related="object_id.move_id",
+        comodel_name="account.account.move",
+        related="object_id.account.move_id",
         store=True,
     )
     invoice_date = fields.Date(

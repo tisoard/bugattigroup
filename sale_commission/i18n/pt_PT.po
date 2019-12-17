@@ -940,7 +940,7 @@ msgid "Wizard for settling commissions in invoices"
 msgstr ""
 
 #. module: sale_commission
-#: sql_constraint:account.invoice.line.agent:0
+#: sql_constraint:account.move.line.agent:0
 #: sql_constraint:sale.commission.line.mixin:0
 #: sql_constraint:sale.order.line.agent:0
 msgid "You can only add one time each agent."
@@ -965,7 +965,7 @@ msgstr "_Cancelar"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_account_invoice_line_agent
-msgid "account.invoice.line.agent"
+msgid "account.move.line.agent"
 msgstr ""
 
 #. module: sale_commission

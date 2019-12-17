@@ -11,7 +11,7 @@ class SaleCommissionAnalysisReport(models.Model):
 
     @api.model
     def _get_selection_invoice_state(self):
-        return self.env['account.invoice'].fields_get(
+        return self.env['account.account.move'].fields_get(
             allfields=['state'])['state']['selection']
 
     invoice_state = fields.Selection(selection='_get_selection_invoice_state',
@@ -32,7 +32,7 @@ class SaleCommissionAnalysisReport(models.Model):
     percentage = fields.Integer('Percentage of commission', readonly=True)
     amount = fields.Float('Amount', readonly=True)
     invoice_line_id = fields.Many2one(
-        'account.invoice.line',
+        'account.account.move.line',
         'Invoice line',
         readonly=True)
     settled = fields.Boolean('Settled', readonly=True)

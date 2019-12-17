@@ -67,7 +67,7 @@ class SaleCommissionMakeSettle(models.TransientModel):
     #@api.multi
     def action_settle(self):
         self.ensure_one()
-        agent_line_obj = self.env['account.invoice.line.agent']
+        agent_line_obj = self.env['account.move.line.agent']
         settlement_obj = self.env['sale.commission.settlement']
         settlement_line_obj = self.env['sale.commission.settlement.line']
         settlement_ids = []

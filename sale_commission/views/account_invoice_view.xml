@@ -3,8 +3,8 @@
 
     <!-- This view is needed for proper visualization of the popup / embedded one2many -->
     <record id="invoice_line_agent_tree" model="ir.ui.view">
-        <field name="name">account.invoice.line.agent.tree</field>
-        <field name="model">account.invoice.line.agent</field>
+        <field name="name">account.move.line.agent.tree</field>
+        <field name="model">account.move.line.agent</field>
         <field name="arch" type="xml">
             <tree string="Invoice line agents and commissions" editable="bottom">
                 <field name="agent"
@@ -16,8 +16,8 @@
     </record>
 
     <record id="invoice_line_form_agent" model="ir.ui.view">
-        <field name="name">account.invoice.line.form.agent</field>
-        <field name="model">account.invoice.line</field>
+        <field name="name">account.move.line.form.agent</field>
+        <field name="model">account.move.line</field>
         <field name="inherit_id" ref="account.view_invoice_line_form" />
         <field name="arch" type="xml">
             <field name="company_id" position="after">
@@ -29,9 +29,9 @@
     </record>
 
     <record id="invoice_form_agent" model="ir.ui.view">
-        <field name="name">account.invoice.form.agent</field>
-        <field name="model">account.invoice</field>
-        <field name="inherit_id" ref="account.invoice_form" />
+        <field name="name">account.move.form.agent</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.move_form" />
         <field name="arch" type="xml">
             <field name="invoice_line_ids" position="attributes">
                 <attribute name="context">{'partner_id': partner_id}</attribute>

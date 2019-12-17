@@ -59,7 +59,7 @@ class SaleCommissionMakeInvoice(models.TransientModel):
                 'name': _('Created Invoices'),
                 'type': 'ir.actions.act_window',
                 'views': [[False, 'list'], [False, 'form']],
-                'res_model': 'account.invoice',
+                'res_model': 'account.move',
                 'domain': [
                     ['id', 'in', [x.invoice.id for x in self.settlements]],
                 ],
