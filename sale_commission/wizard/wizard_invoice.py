@@ -42,7 +42,7 @@ class SaleCommissionMakeInvoice(models.TransientModel):
     from_settlement = fields.Boolean(default=_default_from_settlement)
     date = fields.Date()
 
-    @api.multi
+    #@api.multi
     def button_create(self):
         self.ensure_one()
         if not self.settlements:
