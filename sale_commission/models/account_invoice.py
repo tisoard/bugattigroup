@@ -80,10 +80,10 @@ class AccountInvoiceLine(models.Model):
         """Add agents for records created from automations instead of UI."""
         # We use this form as this is the way it's returned when no real vals
         agents_vals = vals.get('agents', [(6, 0, [])])
-        invoice_id = vals.get('invoice_id', False)
+        move_id = vals.get('move_id', False)
         if (agents_vals and agents_vals[0][0] == 6 and not
-                agents_vals[0][2] and invoice_id):
-            inv = self.env['account.move'].browse(invoice_id)
+                agents_vals[0][2] and move_id):
+            inv = self.env['account.move'].browse(move_id)
             vals['agents'] = self._prepare_agents_vals_partner(inv.partner_id)
         return super().create(vals)
 
@@ -91,7 +91,7 @@ class AccountInvoiceLine(models.Model):
         self.ensure_one()
         res = super()._prepare_agents_vals()
         return res + self._prepare_agents_vals_partner(
-            self.invoice_id.partner_id,
+            self.move_id.partner_id,
         )
 
 
@@ -106,7 +106,7 @@ class AccountInvoiceLineAgent(models.Model):
     invoice = fields.Many2one(
         string="Invoice",
         comodel_name="account.move",
-        related="object_id.invoice_id",
+        related="object_id.move_id",
         store=True,
     )
     invoice_date = fields.Date(
